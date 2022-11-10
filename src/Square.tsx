@@ -15,7 +15,6 @@ interface SquareProps {
 
 export default function Square({ player, position = [0, 0] }: SquareProps) {
 	const appContext = useContext(AppContext);
-
 	const userMove = useCallback(() => {
 		appContext.userMove(position[0], position[1]);
 	}, [appContext, position]);
@@ -43,7 +42,6 @@ export default function Square({ player, position = [0, 0] }: SquareProps) {
 		}),
 		[position[0], position[1], appContext]
 	);
-
 	const compareArray = useCallback(
 		(array) => JSON.stringify(position) === JSON.stringify(array),
 		[position]
@@ -59,12 +57,12 @@ export default function Square({ player, position = [0, 0] }: SquareProps) {
 				compareArray([4, 0]) && "square_border_bottom_left",
 				compareArray([4, 4]) && "square_border_bottom_right"
 			)}`}
-			onMouseMove={() => {
-				if (player !== Player.NONE) {
+			onClick={() => {
+				if (appContext.isStart && Player.USER  === player) {
 					appContext.changeCurrentSelectPosition(position[0], position[1]);
 				}
 			}}>
-			{Player.NONE === player && (
+			{ appContext.isStart && Player.NONE === player && (
 				<>
 					{isOver && !canDrop && (
 						<Overlay type={OverlayType.IllegalMoveHover} />
@@ -73,7 +71,7 @@ export default function Square({ player, position = [0, 0] }: SquareProps) {
 					{isOver && canDrop && <Overlay type={OverlayType.LegalMoveHover} />}
 				</>
 			)}
-			{Player.NONE !== player && (
+			{ Player.NONE !== player && (
 				<div
 					ref={drag}
 					className={`${clsx(

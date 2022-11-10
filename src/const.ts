@@ -14,3 +14,26 @@ export enum OverlayType {
 	LegalMoveHover,
 	PossibleMove,
 }
+export const BOARD_INIT = [
+	[Player.RIM, Player.RIM, Player.RIM, Player.RIM, Player.RIM],
+	[Player.RIM, Player.USER, Player.NONE, Player.NONE, Player.RIM],
+	[Player.RIM, Player.USER, Player.NONE, Player.NONE, Player.RIM],
+	[Player.RIM, Player.NONE, Player.COMPUTER, Player.COMPUTER, Player.RIM],
+	[Player.RIM, Player.RIM, Player.RIM, Player.RIM, Player.RIM],
+];
+
+export const White_Value = [ //maximizer
+	[0, 85, 90, 100, 0],
+	[0, 30, 35, 40, 0],
+	[0, 15, 20, 25, 0],
+	[0, 0, 5, 10, 0],
+	[0, 0, 0, 0, 0],
+];
+
+export const Black_Value = [ //minimizer
+	[0, 0, 0, 0, 0],
+	[0, -10, -25, -40, -60],
+	[0, -5, -20, -35, -50],
+	[0, 0, -15, -30, -45],
+	[0, 0, 0, 0, 0],
+];

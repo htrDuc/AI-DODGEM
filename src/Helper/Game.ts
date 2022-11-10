@@ -1,7 +1,5 @@
 /** @format */
-
-import { Black_Value, White_Value } from "../App";
-import { BOARD_SIZE, Player } from "../const";
+import { BOARD_SIZE, Player, Black_Value, White_Value, BOARD_INIT } from "../const";
 
 class Game {
 	private best: number[][] = [];
@@ -9,16 +7,9 @@ class Game {
 	private tree: number[][][] = [];
 
 	constructor() {
-		const BOARD_INIT = [
-			[Player.RIM, Player.RIM, Player.RIM, Player.RIM],
-			[Player.RIM, Player.USER, Player.NONE, Player.NONE, Player.RIM],
-			[Player.RIM, Player.USER, Player.NONE, Player.NONE, Player.RIM],
-			[Player.RIM, Player.NONE, Player.COMPUTER, Player.COMPUTER, Player.RIM],
-			[Player.RIM, Player.RIM, Player.RIM, Player.RIM],
-		];
 		this.tree.push(BOARD_INIT);
 	}
-
+	// u = board
 	evaluate = (u: number[][]) => {
 		let res = 0;
 
@@ -52,29 +43,6 @@ class Game {
 		}
 		return res;
 	};
-
-	canMovePoint = (
-		toX: number,
-		toY: number,
-		cX: number,
-		cY: number,
-		player: Player
-	) => {
-		const dx = toX - cX;
-		const dy = toY - cY;
-		if (player === Player.USER) {
-			return (
-				(Math.abs(dx) === 1 && Math.abs(dy) === 0) ||
-				(Math.abs(dx) === 0 && dy === 1)
-			);
-		} else {
-			return (
-				(dx === -1 && Math.abs(dy) === 0) ||
-				(Math.abs(dx) === 0 && Math.abs(dy) === 1)
-			);
-		}
-	};
-
 	//tìm tất cả các trường hợp của Min Hoặc Max có thể đi trong một board
 
 	getLegalMoves(u: number[][], player: Player) {
@@ -139,7 +107,7 @@ class Game {
 
 		return listLegalMove;
 	}
-
+	// Computer
 	maxVal = (u: number[][], h: number, alpha: number, beta: number): number => {
 		if (h === 0 || this.getLegalMoves(u, Player.COMPUTER).length === 0) {
 			return this.evaluate(u);
@@ -154,6 +122,7 @@ class Game {
 
 		return alpha;
 	};
+	// User
 	minVal = (u: number[][], h: number, alpha: number, beta: number): number => {
 		if (h === 0 || this.getLegalMoves(u, Player.USER).length === 0) {
 			return this.evaluate(u);
@@ -226,30 +195,6 @@ class Game {
 	setLevel = (level: number) => {
 		this.level = level;
 	};
-
-	list_to_tree() {
-		let map: any = {},
-			node: any,
-			roots: any = [],
-			i,
-			list: any = this.tree;
-
-		for (i = 0; i < list.length; i += 1) {
-			map[list[i].id] = i; // initialize the map
-			list[i].children = []; // initialize the children
-		}
-
-		for (i = 0; i < list.length; i += 1) {
-			node = list[i];
-			if (node.parentId !== "0") {
-				// if you have dangling branches check that map[node.parentId] exists
-				list[map[node.parentId]].children.push(node);
-			} else {
-				roots.push(roots);
-			}
-		}
-		return roots;
-	}
 }
 
 export const game = new Game();

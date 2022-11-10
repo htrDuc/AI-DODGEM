@@ -3,37 +3,12 @@
 import clsx from "clsx";
 import React, { useCallback, useEffect, useState } from "react";
 import Board from "./Board";
-import { Player } from "./const";
+import { Player, BOARD_INIT } from "./const";
 import { game } from "./Helper/Game";
 import "./scss/App.scss";
-import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
-import axios from "axios";
+import "antd/dist/antd.css";
 
-export const BOARD_INIT = [
-	[Player.RIM, Player.RIM, Player.RIM, Player.RIM, Player.RIM],
-	[Player.RIM, Player.USER, Player.NONE, Player.NONE, Player.RIM],
-	[Player.RIM, Player.USER, Player.NONE, Player.NONE, Player.RIM],
-	[Player.RIM, Player.NONE, Player.COMPUTER, Player.COMPUTER, Player.RIM],
-	[Player.RIM, Player.RIM, Player.RIM, Player.RIM, Player.RIM],
-];
-
-export const White_Value = [
-	[0, 85, 90, 100, 0],
-	[0, 30, 35, 40, 0],
-	[0, 15, 20, 25, 0],
-	[0, 0, 5, 10, 0],
-	[0, 0, 0, 0, 0],
-];
-
-export const Black_Value = [
-	[0, 0, 0, 0, 0],
-	[0, -10, -25, -40, -60],
-	[0, -5, -20, -35, -50],
-	[0, 0, -15, -30, -45],
-	[0, 0, 0, 0, 0],
-];
-
-export type CurrentUserPlay = Player.COMPUTER | Player.USER;
+export type CurrentUserPlay = Player.COMPUTER | Player.USER; //maximizer || minimizer
 
 interface AppContextType {
 	currentUserPlay: Player;
@@ -43,6 +18,7 @@ interface AppContextType {
 	userMove: (toX: number, toY: number) => void;
 	changeCurrentSelectPosition: (x: number, y: number) => void;
 	canLegalMove: (toX: number, toY: number, player: Player) => boolean;
+	isStart: boolean,
 }
 
 export const AppContext = React.createContext<AppContextType>({
@@ -53,6 +29,7 @@ export const AppContext = React.createContext<AppContextType>({
 	userMove: (toX: number, toY: number) => {},
 	changeCurrentSelectPosition: (x: number, y: number) => {},
 	canLegalMove: (toX: number, toY: number, player: Player) => true,
+	isStart: false,
 });
 
 const move = [];
@@ -79,6 +56,7 @@ function App() {
 	const userMove = useCallback(
 		(toX, toY) => {
 			//Check if place dont have point to set new position of point select
+			console.log(toX, toY)
 			if (
 				(boardState[toX][toY] === Player.NONE ||
 					boardState[toX][toY] === Player.RIM) &&
@@ -147,7 +125,6 @@ function App() {
 
 	useEffect(() => {
 		if (currentUserPlay === Player.COMPUTER && isStart) {
-			console.log('hello')
 			setBoardState(
 				game.getBestMovePoint(
 					boardState,
@@ -186,6 +163,7 @@ function App() {
 					userMove: userMove,
 					changeCurrentSelectPosition: changeCurrentSelectPosition,
 					canLegalMove: canMovePoint,
+					isStart: isStart
 				}}>
 				<div className='app__container'>
 					<Board

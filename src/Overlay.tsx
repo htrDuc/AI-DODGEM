@@ -2,13 +2,6 @@
 
 import { OverlayType } from "./const";
 
-// export let OverlayType;
-// (function (OverlayType) {
-// 	OverlayType["IllegalMoveHover"] = "Illegal";
-// 	OverlayType["LegalMoveHover"] = "Legal";
-// 	OverlayType["PossibleMove"] = "Possible";
-// })(OverlayType || (OverlayType = {}));
-
 interface OverlayProps {
 	type: OverlayType;
 }
@@ -31,11 +24,11 @@ export const Overlay = ({ type }: OverlayProps) => {
 };
 function getOverlayColor(type: OverlayType) {
 	switch (type) {
-		case OverlayType.IllegalMoveHover:
+		case OverlayType.IllegalMoveHover: // bất hợp pháp
 			return "red";
-		case OverlayType.LegalMoveHover:
+		case OverlayType.LegalMoveHover: // hợp pháp
 			return "green";
-		case OverlayType.PossibleMove:
+		case OverlayType.PossibleMove: // ko được
 			return "yellow";
 	}
 }
