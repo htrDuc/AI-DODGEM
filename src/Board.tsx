@@ -1,11 +1,9 @@
 /** @format */
 
 import {Button} from "@mui/material";
-import React, {useContext} from "react";
+import React from "react";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
-
-import {AppContext} from "./App";
 import {Player} from "./const";
 import "./scss/Board.scss";
 import Square from "./Square";
@@ -28,8 +26,6 @@ export default function Board({
 	isStart,
 	level,
 }: BoardProps) {
-	const appContext = useContext(AppContext);
-
 	return (
 		<DndProvider backend={HTML5Backend}>
 			<div

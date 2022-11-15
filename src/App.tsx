@@ -32,8 +32,6 @@ export const AppContext = React.createContext<AppContextType>({
 	isStart: false,
 });
 
-const move = [];
-
 function App() {
 	const [currentUserPlay, setCurrentUserPlay] = useState<CurrentUserPlay>(
 		Player.COMPUTER
@@ -56,16 +54,17 @@ function App() {
 	const userMove = useCallback(
 		(toX, toY) => {
 			//Check if place dont have point to set new position of point select
-			console.log(toX, toY)
 			if (
 				(boardState[toX][toY] === Player.NONE ||
 					boardState[toX][toY] === Player.RIM) &&
 				currentSelectPosition.length > 0
 			) {
 				const currentBoardValue = [...boardState];
+				// move set old position = 0
 				currentBoardValue[currentSelectPosition[0]][
 					currentSelectPosition[1]
 				] = 0;
+				// assign new position to current user value
 				currentBoardValue[toX][toY] = currentUserPlay;
 				setBoardState(currentBoardValue);
 
@@ -73,14 +72,8 @@ function App() {
 					userWinning(Player.USER);
 					return;
 				}
-				move.push(currentBoardValue);
 				setCurrentSelectPosition([]);
 				changeUserPlay();
-				// game.getBestMovePoint(
-				// 	boardState,
-				// 	Player.USER,
-				// 	(player: Player | null) => userWinning(player)
-				// );
 			}
 		},
 		[boardState, changeUserPlay, currentSelectPosition, currentUserPlay]
@@ -92,13 +85,14 @@ function App() {
 			const [cX, cY] = currentSelectPosition;
 			const dx = toX - cX;
 			const dy = toY - cY;
-
+			// Check user can move point
 			if (currentUserPlay === Player.USER) {
 				return (
 					(Math.abs(dx) === 1 && Math.abs(dy) === 0) ||
 					(Math.abs(dx) === 0 && dy === 1)
 				);
 			} else {
+			// Check computer can move point
 				return (
 					(dx === -1 && Math.abs(dy) === 0) ||
 					(Math.abs(dx) === 0 && Math.abs(dy) === 1)
@@ -124,6 +118,7 @@ function App() {
 	};
 
 	useEffect(() => {
+		// computer auto play
 		if (currentUserPlay === Player.COMPUTER && isStart) {
 			setBoardState(
 				game.getBestMovePoint(

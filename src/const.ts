@@ -22,7 +22,7 @@ export const BOARD_INIT = [
 	[Player.RIM, Player.RIM, Player.RIM, Player.RIM, Player.RIM],
 ];
 
-export const White_Value = [ //maximizer
+export const White_Value = [ //maximizer // computer
 	[0, 85, 90, 100, 0],
 	[0, 30, 35, 40, 0],
 	[0, 15, 20, 25, 0],
@@ -30,7 +30,7 @@ export const White_Value = [ //maximizer
 	[0, 0, 0, 0, 0],
 ];
 
-export const Black_Value = [ //minimizer
+export const Black_Value = [ //minimizer // user
 	[0, 0, 0, 0, 0],
 	[0, -10, -25, -40, -60],
 	[0, -5, -20, -35, -50],
